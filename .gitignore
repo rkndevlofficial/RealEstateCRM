@@ -1,0 +1,8 @@
+node_modules
+.env
+client/.env
+client/.env.local
+client/.env.production
+server/.env
+dist
+build

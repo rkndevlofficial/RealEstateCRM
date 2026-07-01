@@ -1,0 +1,26 @@
+{
+  "name": "Aranyak Admin CRM",
+  "short_name": "Admin CRM",
+  "description": "Private admin CRM app for Aranyak Ventures.",
+  "start_url": "/admin",
+  "scope": "/admin",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F7F6EF",
+  "theme_color": "#35434A",
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/aranyak-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/aranyak-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
