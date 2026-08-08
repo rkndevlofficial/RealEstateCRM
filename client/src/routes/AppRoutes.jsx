@@ -16,29 +16,107 @@ import LeadsPage from "../pages/LeadsPage";
 import AdminProfile from "../pages/AdminProfile";
 import AdminActivityLogs from "../pages/AdminActivityLogs";
 
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
+
 import ProtectedRoute from "./ProtectedRoute";
 
 function AppRoutes() {
   return (
     <Routes>
-      {/* Public Website Routes */}
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/projects" element={<Projects />} />
-      <Route path="/projects/:id" element={<ProjectDetails />} />
-      <Route path="/investment" element={<Investment />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/faq" element={<FAQ />} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-      <Route path="/terms-and-conditions" element={<TermsConditions />} />
 
-      {/* Admin Entry */}
-      <Route path="/admin" element={<AdminEntry />} />
+      {/* =========================
+          PUBLIC WEBSITE ROUTES
+      ========================== */}
+
+      <Route
+        path="/"
+        element={<Home />}
+      />
+
+      <Route
+        path="/about"
+        element={<About />}
+      />
+
+      <Route
+        path="/projects"
+        element={<Projects />}
+      />
+
+      <Route
+        path="/projects/:id"
+        element={<ProjectDetails />}
+      />
+
+      <Route
+        path="/investment"
+        element={<Investment />}
+      />
+
+      <Route
+        path="/contact"
+        element={<Contact />}
+      />
+
+      <Route
+        path="/faq"
+        element={<FAQ />}
+      />
+
+      <Route
+        path="/privacy-policy"
+        element={<PrivacyPolicy />}
+      />
+
+      <Route
+        path="/terms-and-conditions"
+        element={<TermsConditions />}
+      />
+
+      {/* =========================
+          ADMIN ENTRY / LOGIN
+      ========================== */}
+
+      <Route
+        path="/admin"
+        element={<AdminEntry />}
+      />
 
       {/* Direct login URL disabled */}
-      <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
 
-      {/* Protected Admin Routes */}
+      <Route
+        path="/admin/login"
+        element={
+          <Navigate
+            to="/admin"
+            replace
+          />
+        }
+      />
+
+      {/* =========================
+          FORGOT PASSWORD
+      ========================== */}
+
+      <Route
+        path="/admin/forgot-password"
+        element={<ForgotPassword />}
+      />
+
+      {/* =========================
+          RESET PASSWORD
+      ========================== */}
+
+      <Route
+        path="/admin/reset-password/:token"
+        element={<ResetPassword />}
+      />
+
+      {/* =========================
+          PROTECTED ADMIN ROUTES
+      ========================== */}
+
       <Route
         path="/admin/projects"
         element={
@@ -77,8 +155,28 @@ function AppRoutes() {
 
       <Route
         path="/admin/change-password"
-        element={<Navigate to="/admin/profile" replace />}
+        element={
+          <Navigate
+            to="/admin/profile"
+            replace
+          />
+        }
       />
+
+      {/* =========================
+          FALLBACK
+      ========================== */}
+
+      <Route
+        path="*"
+        element={
+          <Navigate
+            to="/"
+            replace
+          />
+        }
+      />
+
     </Routes>
   );
 }

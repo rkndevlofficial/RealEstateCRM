@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import API from "../config/api";
 import { isValidEmail } from "../utils/validators";
 import companyInfo from "../data/companyInfo";
@@ -10,18 +11,18 @@ function AdminLogin() {
   });
 
   const [formError, setFormError] = useState("");
-  const [sessionMessage, setSessionMessage] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-
-  useEffect(() => {
+  const [sessionMessage, setSessionMessage] = useState(() => {
     const message = localStorage.getItem("adminSessionMessage");
 
     if (message) {
-      setSessionMessage(message);
       localStorage.removeItem("adminSessionMessage");
+      return message;
     }
-  }, []);
+
+    return "";
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormError("");
@@ -81,17 +82,24 @@ function AdminLogin() {
       localStorage.setItem("token", res.data.token);
 
       if (res.data?.user) {
-        localStorage.setItem("adminUser", JSON.stringify(res.data.user));
+        localStorage.setItem(
+          "adminUser",
+          JSON.stringify(res.data.user)
+        );
       }
 
       localStorage.removeItem("adminSessionMessage");
 
       window.location.replace("/admin");
     } catch (error) {
-      console.log("Login error:", error.response?.data || error.message);
+      console.log(
+        "Login error:",
+        error.response?.data || error.message
+      );
 
       const message =
-        error.response?.data?.message || "Invalid email or password ❌";
+        error.response?.data?.message ||
+        "Invalid email or password ❌";
 
       setFormError(message);
     } finally {
@@ -100,21 +108,24 @@ function AdminLogin() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-[#35434A] px-4 py-10 overflow-hidden">
-      <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#CDB52B]/15 rounded-full blur-3xl"></div>
-      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-[#9CA83A]/15 rounded-full blur-3xl"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(205,181,43,0.16),transparent_30%),radial-gradient(circle_at_80%_80%,rgba(156,168,58,0.14),transparent_35%)]"></div>
+    <div className="min-h-screen 
+    bg-linear-to-br from-[#263238] via-[#35434A] to-[#1f2933] flex items-center justify-center px-4 py-8">
 
       <form
         onSubmit={handleLogin}
         className="relative z-10 bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-white/30"
       >
+        {/* Logo / Heading */}
+
         <div className="text-center mb-8">
           {companyInfo.logo ? (
             <div className="bg-white rounded-2xl px-4 py-3 shadow-lg border border-slate-100 w-fit mx-auto mb-5">
               <img
                 src={companyInfo.logo}
-                alt={companyInfo.name || "Aranyak Ventures"}
+                alt={
+                  companyInfo.name ||
+                  "Aranyak Ventures"
+                }
                 className="h-16 sm:h-20 w-auto object-contain"
               />
             </div>
@@ -137,17 +148,23 @@ function AdminLogin() {
           </p>
         </div>
 
+        {/* Session Message */}
+
         {sessionMessage && (
           <div className="mb-5 bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-xl font-semibold">
             {sessionMessage}
           </div>
         )}
 
+        {/* Login Error */}
+
         {formError && (
           <div className="mb-5 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl font-semibold">
             {formError}
           </div>
         )}
+
+        {/* Email */}
 
         <label className="block text-sm font-bold text-[#263238] mb-2">
           Email Address
@@ -164,11 +181,13 @@ function AdminLogin() {
           required
         />
 
+        {/* Password */}
+
         <label className="block text-sm font-bold text-[#263238] mb-2">
           Password
         </label>
 
-        <div className="relative mb-6">
+        <div className="relative mb-2">
           <input
             type={showPassword ? "text" : "password"}
             name="password"
@@ -182,12 +201,27 @@ function AdminLogin() {
 
           <button
             type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
+            onClick={() =>
+              setShowPassword((prev) => !prev)
+            }
             className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#35434A] font-bold text-sm"
           >
             {showPassword ? "Hide" : "Show"}
           </button>
         </div>
+
+        {/* Forgot Password */}
+
+        <div className="flex justify-end mb-6">
+          <Link
+            to="/admin/forgot-password"
+            className="text-sm font-bold text-[#35434A] hover:text-[#9CA83A] transition"
+          >
+            Forgot Password?
+          </Link>
+        </div>
+
+        {/* Login Button */}
 
         <button
           type="submit"
